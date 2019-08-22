@@ -1,0 +1,12 @@
+host-src-ip			node-type			position
+192.168.1.10			IED			lower
+192.168.1.11			IED			lower
+192.168.1.51			HMI			upper
+192.168.1.53			Workstation			upper
+192.168.1.12			IED			lower
+192.168.1.13			IED			lower
+192.168.1.14			IED			lower
+192.168.1.15			IED			lower
+192.168.1.16			IED			lower
+192.168.1.100			Switch			middle
+192.168.1.110			Router			upper

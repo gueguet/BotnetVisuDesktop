@@ -1,0 +1,53 @@
+#mapid
+{
+	height: 600px;
+	width: 50%;
+	float: left;
+	left: 17.5%;
+}
+
+*
+{
+    box-sizing: border-box;
+}
+
+.column
+{
+	position: relative;
+	float: right;
+	right: 17.5%;
+	padding: 10px;
+	height: 600px;
+	width: 15%;
+}
+
+.row:after
+{
+    content: "";
+  	display: table;
+  	clear: both;
+}
+
+#timeBracket
+{
+    clear: both;
+    position: relative;
+    left: 48.25%;
+}
+
+#timeControls
+{
+    position: relative;
+    clear: both;
+    left: 47.5%;
+}
+
+#siteHeader
+{
+    border-radius: 25px;
+    position: relative;
+    width: 67.5%;
+    left: 16.25%;
+    height: 100px;
+    background-color: grey;
+}

@@ -1,0 +1,128 @@
+ <!-- FLOW DATA VISUALIZATION WITH CYTOSCAPE GRAPH -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Botnet detection - Flow Data</title>
+    
+    <!-- STYLE -->
+    <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="../css/flow.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+    <!-- CYTOSCAPE -->
+    <script src='../js/cytoscape.min.js'></script>
+    <script src="https://unpkg.com/cytoscape-canvas/dist/cytoscape-canvas.js"></script>
+
+    <!-- JQUERY -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+</head>
+
+<body>
+
+
+    <div class="header-ctn">
+
+        <!-- SETTINGS FOR GRAPH TO CREATE -->
+        <div class="settings-ctn">
+            <div id="time-range">
+                <p>Time Range: <span class="slider-time">0:00</span> - <span class="slider-time2">1:00</span>
+                </p>
+                <div class="sliders_step1">
+                    <div id="slider-range">
+                        <!-- <div class="vertical-line">fewqfeqwfewe</div> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-ctn">
+
+                <!-- Get and delete cytoscape data -->
+                <button id="get_data">Get Data</button>
+                <button id="del_graph">Delete Graph</button>
+<!-- 
+                Future page / different way to visualize data
+                <button onclick="window.location.href = 'flow_map_visu.html';">Map Flow</button>
+                <button onclick="window.location.href = 'test_cyto_background.html';">Test Cyto</button>
+                <button onclick="window.location.href = 'cyto_collapse.html';">Cytoscape Collapse Graph</button> -->
+
+            </div>
+        </div>
+
+
+        
+
+        <!-- INFO SELECTED NODE -->
+        <div class="selected-node-ctn">
+            <div class="left-ctn">
+                <h3>Selected node informations</h3>
+                <!-- <div id="malicious-btn">
+                        <button>Define as malicious</button>
+                </div> -->
+            </div>
+
+            <div class="right-ctn">
+                <ul>
+                    <li >Id : <span id='node_id'></span></li>
+                    <li>Connected node : <span id='connected_node'></span></li>
+                    <li>Numbers of linked flows : <span id='linked_flows'></span></li>
+                </ul>
+            </div>
+        </div>
+
+
+        <!-- INFO SELECTED EDGE -->
+        <div class="selected-edge-ctn">
+            <div class="left-ctn">
+                <h3>Selected edge informations</h3>
+                <div id="malicious-edge-btn">
+                        <button>Define as malicious</button>
+                </div>
+            </div>
+
+            <div class="right-ctn">
+                <ul>
+                    <li>Emission time : <span id='edge_emission'></span></li>
+                    <li>Duration : <span id='edge_duration'></span> seconds</li>
+                    <li>Connected node : <span id='edge_connected_node'></span></li>
+                </ul>
+            </div>
+        </div>        
+
+    </div>
+
+    <br><br>
+    
+
+
+
+
+    
+
+
+    <!-- CYTOSCAPE GRAPH CONTAINER -->
+    <div id="cy"></div>
+
+    <div id="timer-ctn">
+        <h2>Time</h2>
+        <h2 id="time-value">00:00</h2>
+    </div>
+
+    <!-- PERSONNAL SCRIPT FOR CYTO GRAPH -->
+    <script src='flow_data_cytoscape.js'>
+    
+    
+    </script>
+
+    <script>
+
+
+
+    </script>
+
+</body>
+</html>

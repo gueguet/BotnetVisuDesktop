@@ -1,0 +1,74 @@
+<!-- FLOW DATA VISUALIZATION WITH CYTOSCAPE GRAPH -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Botnet detection - Flow Data Map</title>
+    
+    <!-- STYLE -->
+    <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="../css/my_flow_map_style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    
+    <!-- JQUERY -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>    
+</head>
+
+    <body>
+
+
+        <div class="flow-map-ctn">
+                <!-- BUTTON -->
+                <div class="btn-ctn">
+                    <button onclick="window.location.href = 'flow_data_visu.html';">Go Back</button>
+                </div>
+
+
+                <!-- SETTINGS FOR GRAPH TO CREATE -->
+                <div class="time-and-map">
+                    <div id="time-range">
+                        <p>Time Range: <span class="slider-time">0:00</span> - <span class="slider-time2">1:00</span>
+                            <button id="show_data_map">Show Data on Map</button>
+                        </p>
+                        <div class="sliders_step1">
+                            <div id="slider-range"></div>
+                        </div>
+
+                    </div>
+        
+
+
+
+                    <div id="main" style="width:1000px; height:750px; margin: 50px 800px 0 0"></div>
+    
+
+
+
+                    
+                    <div id="flow-info">
+                        
+                        <h2>Flow Information</h2>
+
+                        <strong>From : </strong><span id="form-info"></span><br>
+                        <strong>To : </strong><span id="to-info"></span><br>
+                        <strong>Destination port : </strong><span id="dst-port-info"></span><br>
+                        <strong>Flow size : </strong><span id="flow-size-info"></span><br>
+                        <strong>Emission time : </strong><span id="emission-time-info"></span><br>
+                        <strong>Emission date : </strong><span id="emission-date-info"></span><br>
+                        <strong>Is malicious : </strong><span id="is-malicious-info"></span><br>
+                    </div>               
+
+
+                </div> 
+        </div>
+
+        <!-- ECHARTS AND PERSONNAL SCRIPT -->
+        <script src="../js/echarts.min.js"></script>
+        <script src="../js/flow_map.js"></script>
+    </body>
+
+</html>

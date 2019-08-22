@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>SCADA Site Status Viewer</title>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
+		<link rel="stylesheet" href="../css/botnet.css"/>
+		<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	</head>
+	<body>
+
+        <div id="siteHeader">
+            <span id="icon"><img src=""></span>
+            <button onclick="window.location.href = 'flow_data_visu.html';">Flow Data</button>
+        </div>
+
+		<div id="mapid"></div>
+		<script>
+			var mymap = L.map('mapid').setView([31.5552, -110.35], 12);
+			L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+			maxZoom: 18,
+			id: 'mapbox.streets',
+			accessToken: 'pk.eyJ1IjoicGhpbGxpcHJveSIsImEiOiJjanNnazBoZzgwOW13NDZxejNrMDRkM2swIn0.VOI0oWwM3KBgMiJhQ5oQgQ'
+			}).addTo(mymap);
+			var layerGroup = L.layerGroup().addTo(mymap);
+		</script>
+
+		<div class="row">
+			<div class="column" style="background-color:#bbb;">
+				<h2>Flagged Detections</h2>
+				<div style="height:500px;width:100%;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;" id="flags"></div>
+			</div>
+		</div>
+
+		<div id="timeControls">
+			<button onclick="play()">Play</button>
+			<button onclick="stop()">Stop</button>
+		</div>
+
+		<div id="timeBracket">
+
+		</div>
+
+		<script>
+			$("#clearDetections").click(function(){
+				$("#flags").empty();
+			});
+		</script>
+
+	<script>
+		var time = ["00-00-00", "01-00-00", "02-00-00", "03-00-00", "04-00-00", "05-00-00", "06-00-00", "07-00-00", "08-00-00",
+		"09-00-00", "10-00-00", "11-00-00", "12-00-00", "13-00-00", "14-00-00", "15-00-00",
+		"16-00-00", "17-00-00", "18-00-00", "19-00-00", "20-00-00", "21-00-00", "22-00-00", "23-00-00"];
+
+        var j = 0;
+        var id;
+
+        function enumerate(a) {
+            return a < 24 ? a + 1: 0;
+        }
+
+        var something = (function(field) {
+        	var executed = 0;
+        	return function() {
+        		if(executed<24) {
+        			executed++;
+        			$.getJSON("/detectdata?dtime=" + time[j] + "", function(result){
+        				$.each(result, function(i, field){
+			  				if(field[2] != 'normal')
+			  				{
+			    				$("#flags").append(field + "<br/>");
+			    			}
+			    		});
+			    	});
+        		}
+        	};
+        })();
+
+		function play() {
+		    id = setInterval(function(){
+		    	something(); 
+		        $.getJSON("/detectdata?dtime=" + time[j] + "", function(result){
+					mymap.removeLayer(layerGroup);
+					layerGroup = L.layerGroup().addTo(mymap);
+			  		$.each(result, function(i, field){
+						if(i===0)
+						{
+							var marker = L.marker([31.5452, -110.24]).addTo(layerGroup);
+							marker.bindPopup("<b>" + field[0] + "</b><br>Node type: " + field[1] + "<br>Status: " + field[2]);
+							if(field[2] === 'normal')
+							{
+								var circle = L.circle([31.5452, -110.24], {
+									color: 'green',
+									fillColor: 'green',
+									fillOpacity: 0.5,
+									radius: 500
+								}).addTo(layerGroup);
+							}
+							else
+							{
+								var circle = L.circle([31.5452, -110.24], {
+									color: 'red',
+									fillColor: 'red',
+									fillOpacity: 0.5,
+									radius: 500
+								}).addTo(layerGroup);
+							}
+						}
+						else if(i===1)
+						{
+							var marker2 = L.marker([31.5552, -110.36]).addTo(layerGroup);
+							marker2.bindPopup("<b>" + field[0] + "</b><br>Node type: " + field[1] + "<br>Status: " + field[2]);
+							if(field[2] === 'normal')
+							{
+								var circle2 = L.circle([31.5552, -110.36], {
+									color: 'green',
+									fillColor: 'green',
+									fillOpacity: 0.5,
+									radius: 500
+								}).addTo(layerGroup);
+							}
+							else
+							{
+								var circle2 = L.circle([31.5552, -110.36], {
+									color: 'red',
+									fillColor: 'red',
+									fillOpacity: 0.5,
+									radius: 500
+								}).addTo(layerGroup);
+							}
+						}
+						else if(i===2)
+						{
+							var marker3 = L.marker([31.5652, -110.27]).addTo(layerGroup);
+							marker3.bindPopup("<b>" + field[0] + "</b><br>Node type: " + field[1] + "<br>Status: " + field[2]);
+							if(field[2] === 'normal')
+							{
+								var circle3 = L.circle([31.5652, -110.27], {
+									color: 'green',
+									fillColor: 'green',
+									fillOpacity: 0.5,
+									radius: 500
+								}).addTo(layerGroup);
+							}
+							else
+							{
+								var circle3 = L.circle([31.5652, -110.27], {
+									color: 'red',
+									fillColor: 'red',
+									fillOpacity: 0.5,
+									radius: 500
+								}).addTo(layerGroup);
+							}
+						}
+						else if(i===3)
+						{
+							var marker4 = L.marker([31.5752, -110.45]).addTo(layerGroup);
+							marker4.bindPopup("<b>" + field[0] + "</b><br>Node type: " + field[1] + "<br>Status: " + field[2]);
+							if(field[2] === 'normal')
+							{
+								var circle4 = L.circle([31.5752, -110.45], {
+									color: 'green',
+									fillColor: 'green',
+									fillOpacity: 0.5,
+									radius: 500
+								}).addTo(layerGroup);
+							}
+							else
+							{
+								var circle4 = L.circle([31.5752, -110.45], {
+									color: 'red',
+									fillColor: 'red',
+									fillOpacity: 0.5,
+									radius: 500
+								}).addTo(layerGroup);
+							}
+						}
+						else if(i===4)
+						{
+							var marker5 = L.marker([31.5052, -110.39]).addTo(layerGroup);
+							marker5.bindPopup("<b>" + field[0] + "</b><br>Node type: " + field[1] + "<br>Status: " + field[2]);
+							if(field[2] === 'normal')
+							{
+								var circle5 = L.circle([31.5052, -110.39], {
+									color: 'green',
+									fillColor: 'green',
+									fillOpacity: 0.5,
+									radius: 500
+								}).addTo(layerGroup);
+							}
+							else
+							{
+								var circle5 = L.circle([31.5052, -110.39], {
+									color: 'red',
+									fillColor: 'red',
+									fillOpacity: 0.5,
+									radius: 500
+								}).addTo(layerGroup);
+							}
+						}
+						else if(i===5)
+						{
+							var marker6 = L.marker([31.5952, -110.40]).addTo(layerGroup);
+							marker6.bindPopup("<b>" + field[0] + "</b><br>Node type: " + field[1] + "<br>Status: " + field[2]);
+							if(field[2] === 'normal')
+							{
+								var circle6 = L.circle([31.5952, -110.40], {
+									color: 'green',
+									fillColor: 'green',
+									fillOpacity: 0.5,
+									radius: 500
+								}).addTo(layerGroup);
+							}
+							else
+							{
+								var circle6 = L.circle([31.5952, -110.40], {
+									color: 'red',
+									fillColor: 'red',
+									fillOpacity: 0.5,
+									radius: 500
+								}).addTo(layerGroup);
+							}
+						}
+						else if(i===6)
+						{
+							var marker7 = L.marker([31.6052, -110.29]).addTo(layerGroup);
+							marker7.bindPopup("<b>" + field[0] + "</b><br>Node type: " + field[1] + "<br>Status: " + field[2]);
+							if(field[2] === 'normal')
+							{
+								var circle7 = L.circle([31.6052, -110.29], {
+									color: 'green',
+									fillColor: 'green',
+									fillOpacity: 0.5,
+									radius: 500
+								}).addTo(layerGroup);
+							}
+							else
+							{
+								var circle7 = L.circle([31.6052, -110.29], {
+									color: 'red',
+									fillColor: 'red',
+									fillOpacity: 0.5,
+									radius: 500
+								}).addTo(layerGroup);
+							}
+						}
+						else if(i===7)
+						{
+							var marker8 = L.marker([31.4752, -110.42]).addTo(layerGroup);
+							marker8.bindPopup("<b>" + field[0] + "</b><br>Node type: " + field[1] + "<br>Status: " + field[2]);
+							if(field[2] === 'normal')
+							{
+								var circle8 = L.circle([31.4752, -110.42], {
+									color: 'green',
+									fillColor: 'green',
+									fillOpacity: 0.5,
+									radius: 500
+								}).addTo(layerGroup);
+							}
+							else
+							{
+								var circle8 = L.circle([31.4752, -110.42], {
+									color: 'red',
+									fillColor: 'red',
+									fillOpacity: 0.5,
+									radius: 500
+								}).addTo(layerGroup);
+							}
+						}
+						else if(i===8)
+						{
+							var marker9 = L.marker([31.6052, -110.43]).addTo(layerGroup);
+							marker9.bindPopup("<b>" + field[0] + "</b><br>Node type: " + field[1] + "<br>Status: " + field[2]);
+							if(field[2] === 'normal')
+							{
+								var circle9 = L.circle([31.6052, -110.43], {
+									color: 'green',
+									fillColor: 'green',
+									fillOpacity: 0.5,
+									radius: 500
+								}).addTo(layerGroup);
+							}
+							else
+							{
+								var circle9 = L.circle([31.6052, -110.43], {
+									color: 'red',
+									fillColor: 'red',
+									fillOpacity: 0.5,
+									radius: 500
+								}).addTo(layerGroup);
+							}
+						}
+			  		});
+				});
+				$("#timeBracket").empty();
+				$("#timeBracket").append(time[j]);
+				j = enumerate(j);
+		    }, 1000);
+		}
+
+		function stop() {
+		    clearInterval(id);
+		}
+
+	</script>
+
+	</body>
+</html>
+
+<!--Planned Functionality>
+Current Version: 0.3.0
+1.) Display map (as of 0.1.0)
+2.) Read from JSON (as of 0.2.0)
+3.) Refresh feed (as of 0.3.0)
+4.) Jump to detection (planned for 0.4.0)
+
+Notes:
+-> The JSON detection stubs would best be used for file input
+	due to the array structure of the information.
+<!-->

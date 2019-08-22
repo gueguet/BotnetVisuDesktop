@@ -1,0 +1,25 @@
+{
+  "name": "seedsbotnet",
+  "version": "1.0.0",
+  "description": "Simple bootstrap for SEEDS Botnet visualization",
+  "main": "index.js",
+  "dependencies": {
+    "cytoscape": "^3.5.7",
+    "cytoscape-canvas": "^3.0.1",
+    "cytoscape-expand-collapse": "^3.1.2",
+    "echarts-countries-js": "^1.0.4",
+    "echarts-gl": "^1.1.1",
+    "echarts-map-geo": "^1.0.5",
+    "jquery": "^3.4.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://eac-fs-0.host.ualr.edu/eac-common/seedsbotnet"
+  },
+  "author": "",
+  "license": "ISC"
+}

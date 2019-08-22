@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>SCADA Site Flows Viewer</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src='cytoscape.min.js'></script>
+	</head>
+    <style>
+        #cy {
+            width: 90%;
+            height: 60%;
+            float: center;
+            position: absolute;
+            top: 35%;
+            left: 5%;
+        }
+    </style>
+
+	<body>
+	    <button onclick="window.location.href = 'botnet.html';">Detection Data</button>
+        <div>
+			<h2>Scada Data</h2>
+			<select id="times">
+  				<option value="01-00-00">01-00-00</option>
+  				<option value="02-00-00">02-00-00</option>
+  				<option value="03-00-00">03-00-00</option>
+  				<option value="04-00-00">04-00-00</option>
+				<option value="05-00-00">05-00-00</option>
+  				<option value="06-00-00">06-00-00</option>
+  				<option value="07-00-00">07-00-00</option>
+  				<option value="08-00-00">08-00-00</option>
+				<option value="09-00-00">09-00-00</option>
+  				<option value="10-00-00">10-00-00</option>
+  				<option value="11-00-00">11-00-00</option>
+  				<option value="12-00-00">12-00-00</option>
+				<option value="13-00-00">13-00-00</option>
+  				<option value="14-00-00">14-00-00</option>
+  				<option value="15-00-00">15-00-00</option>
+  				<option value="16-00-00">16-00-00</option>
+				<option value="17-00-00">17-00-00</option>
+  				<option value="18-00-00">18-00-00</option>
+  				<option value="19-00-00">19-00-00</option>
+  				<option value="20-00-00">20-00-00</option>
+				<option value="21-00-00">21-00-00</option>
+  				<option value="22-00-00">22-00-00</option>
+  				<option value="23-00-00">23-00-00</option>
+  				<option value="24-00-00">24-00-00</option>
+			</select>
+			<select id="ipAddress">
+  				<option value="192.168.1.10">192.168.1.10</option>
+  				<option value="192.168.1.11">192.168.1.11</option>
+  				<option value="192.168.1.12">192.168.1.12</option>
+  				<option value="192.168.1.13">192.168.1.13</option>
+				<option value="192.168.1.14">192.168.1.14</option>
+  				<option value="192.168.1.15">192.168.1.15</option>
+  				<option value="192.168.1.16">192.168.1.16</option>
+  				<option value="192.168.1.51">192.168.1.51</option>
+				<option value="192.168.1.53">192.168.1.53</option>
+			</select>
+			<button id="get_data">Get Data</button>
+		</div>
+        <div class="column" style="background-color:#bbb;">
+    		<h2>Flow Data</h2>
+    		<div style="height:150px;width:100%;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;" id="flow_data">
+			</div>
+        </div>
+
+        <div id="cy"></div>
+        <script>
+        	var cy = cytoscape({
+        		container: document.getElementById('cy'),
+          		style: [
+            	{
+              		selector: 'node',
+              		style: {
+                		shape: 'hexagon',
+                		'background-color': 'red',
+                		label: 'data(id)'
+              		}
+            	}]
+        	});
+
+            $(document).ready(function(){
+		        $("#get_data").click(function(){
+		  	        time = document.getElementById("times").value;
+		  	        ip = document.getElementById("ipAddress").value;
+		  	        $.getJSON("/flowdata?dip=" + ip + "&dtime=" + time, function(result){
+			            $.each(result, function(i, field){
+				        	$("#flow_data").append(field + "<br/>");
+				        	cy.add({
+				        		data: { id: field[0] + " " + i }
+				        	});
+				        	cy.add({
+				        		data: { id: field[1] + " " + i }
+				        	});
+				        	var source = field[0] + " " + i;
+				        	cy.add({
+				        		data: {
+				        			id: field[1] + i,
+				        			source: field[1] + " " +i,
+				        			target: field[0] + " " +i
+				        		}
+				        	});
+				        	var layout = cy.layout({
+        						name: 'grid'
+        					});
+        					layout.run();
+			            });
+			        });
+			    });
+			});
+
+
+        </script>
+	</body>
+</html>
+<!--Planned Functionality>
+Current Version: 0.2.0
+1.) Display map (as of 0.1.0)
+2.) Read from JSON (as of 0.2.0)
+3.) Refresh feed (as of 0.3.0, but functionality is questionable)
+4.) Create force diagram from JSON data (planned for 0.4.0)
+
+Notes:
+-> The JSON detection stubs would best be used for file input
+	due to the array structure of the information.
+<!-->

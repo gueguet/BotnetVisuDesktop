@@ -1,0 +1,11 @@
+host-src-ip			node-type			position
+128.110.0.32			IED			lower
+128.110.0.33			IED			lower
+128.110.0.35			IED			lower
+128.110.0.36			IED			lower
+128.110.0.37			IED			lower
+128.110.0.41			IED			lower
+128.110.0.11			Workstation		upper
+128.110.0.49			HMI			upper
+128.110.0.2			Switch			middle
+128.110.0.110			Router			upper

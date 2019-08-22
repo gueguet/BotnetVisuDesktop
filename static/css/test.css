@@ -1,0 +1,20 @@
+#main {
+    width: 90%;
+    height: 80%;
+    float: center;
+    position: absolute;
+    left: 5%;
+    top: 10%;
+    border: 1px solid grey;
+}
+
+#cy {
+    width: 90%;
+    height: 80%;
+    float: center;
+    position: absolute;
+    left: 5%;
+    top: 16%;
+    border: 2px solid red;
+    box-shadow: 5px 5px black;
+}

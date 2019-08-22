@@ -1,0 +1,9 @@
+host-src-ip			node-type			status
+192.168.1.10			IED			normal
+192.168.1.11			IED			normal
+192.168.1.51			HMI			normal
+192.168.1.53			Workstation			normal
+192.168.1.13			IED			ZeroAccess
+192.168.1.14			IED			ZeroAccess
+192.168.1.15			IED			Storm
+192.168.1.16			IED			Storm

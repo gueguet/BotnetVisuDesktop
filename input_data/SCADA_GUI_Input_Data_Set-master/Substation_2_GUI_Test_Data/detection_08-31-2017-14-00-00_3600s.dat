@@ -1,0 +1,9 @@
+host-src-ip			node-type			status
+128.110.0.41			IED			normal
+128.110.0.37			IED			normal
+128.110.0.49			HMI			normal
+128.110.0.11			Workstation			normal
+128.110.0.35			IED			Sality
+128.110.0.36			IED			Storm
+128.110.0.33			IED			Storm
+128.110.0.32			IED			Sality
